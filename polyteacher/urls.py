@@ -19,10 +19,14 @@ from django.urls import path
 from translator.views import index
 from translator.views import FrenchSpanishTranslationViewSet
 from translator.views import FrenchEnglishTranslationViewSet
+from translator.views import AllTranslation
+from translator.views import TranslateTextView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('api/french_spanish_translator/', FrenchSpanishTranslationViewSet.as_view(), name='french_spanish_translator'),
     path('api/french_english_translator/', FrenchEnglishTranslationViewSet.as_view(), name='french_english_translator'),
+    path('api/all_translation/', AllTranslation.as_view(), name='allTranslations'),
+    path('api/translate/', TranslateTextView.as_view(), name='translate_text'),
 ]
