@@ -3,7 +3,7 @@ FROM python:3.13.0
 
 # Log level
 ENV PYTHONUNBUFFERED 1
-ENV GOOGLE_API_KEY Here_your_api_key
+ENV GOOGLE_API_KEY ${GOOGLE_API_KEY}
 
 # Make working directory
 RUN mkdir /polyteacher
