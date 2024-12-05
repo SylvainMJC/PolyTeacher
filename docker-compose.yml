@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   web:
@@ -9,3 +9,5 @@ services:
       - .:/polyteacher
     ports:
       - "8000:8000"
+    env_file:
+      - .env

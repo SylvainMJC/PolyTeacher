@@ -53,6 +53,35 @@ class AllTranslation(APIView):
         return Response(data=serialized_data.data, status=status.HTTP_200_OK)
 
 class TranslateTextView(APIView):
+    def get(self, request):
+        try:
+            source_text = request.GET.get('source_text') 
+            source_language = request.GET.get('source_language') 
+            target_language = request.GET.get('target_language') 
+            if not source_text or not target_language:
+                return Response(
+                    {"error": "source_text and target_language are required."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            api_key = os.environ.get("GOOGLE_API_KEY", "")
+            if not api_key:
+                return Response(
+                    {"error": "API key not configured properly."},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
+
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel("gemini-1.5-flash")
+
+            prompt = f'Traduis "{source_text}" en {target_language}. La réponse ne doit contenir que la traduction.'
+            response = model.generate_content(prompt)
+            return Response({"translation": response.text}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
     def post(self, request):
         try:
             source_text = request.data.get("source_text", None)
